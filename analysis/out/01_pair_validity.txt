@@ -1,0 +1,81 @@
+=== 1. 시리즈 기간/빈도 (12개 페어 구성 시리즈) ===
+breadth   n=  751 2023-08-21~2026-08-18 freq=daily    unit=비율
+btc       n= 1097 2023-08-18~2026-08-18 freq=daily    unit=$
+copper    n=  755 2023-08-18~2026-08-18 freq=daily    unit=$
+dgs10     n=  749 2023-08-17~2026-08-17 freq=daily    unit=%
+dxy       n=  754 2023-08-18~2026-08-18 freq=daily    unit=pt
+ewy       n=  751 2023-08-21~2026-08-18 freq=daily    unit=$
+exports   n=   68 2021-01-15~2026-08-15 freq=monthly  unit=천$
+gold      n=  754 2023-08-18~2026-08-18 freq=daily    unit=$
+gspc      n=  751 2023-08-21~2026-08-18 freq=daily    unit=pt
+ks11      n=  727 2023-08-18~2026-08-14 freq=daily    unit=pt
+kvol      n=  705 2023-09-15~2026-08-14 freq=daily    unit=배
+samsung   n=  727 2023-08-18~2026-08-18 freq=daily    unit=원
+tga       n=  909 2023-01-03~2026-08-17 freq=daily    unit=$M
+tnx       n=  752 2023-08-18~2026-08-18 freq=daily    unit=%
+uvol      n=  731 2023-09-19~2026-08-18 freq=daily    unit=배
+wm2ns     n=  151 2023-08-21~2026-07-06 freq=weekly   unit=$B
+wresbal   n=  156 2023-08-23~2026-08-12 freq=weekly   unit=$B
+wti       n=  754 2023-08-18~2026-08-18 freq=daily    unit=$
+
+=== 2. 페어별 정렬 후 표본수 + 롤링상관 실측 ===
+pair             freq     n_align      20      60     120   sd60  flip%
+rate-index       d/d          750   -0.33   -0.36   -0.50   0.26    39%
+tga-index        d/d          750   -0.01   +0.27   +0.20   0.15    40%
+dollar-kospi     d/d          726   +0.00   -0.13   -0.08   0.16    46%
+metal-rate       d/d          751   -0.17   -0.05   -0.38   0.18    43%
+ewy-krsemi       d/d          726   +0.25   +0.41   +0.34   0.13     0%
+m2-index         w/d          150   -0.02   -0.01   -0.15   0.09     5%
+reserves-index   w/d          155   +0.13   -0.08   -0.05   0.15    26%
+gold-btc         d/d          753   +0.49   +0.50   +0.34   0.17    26%
+wti-rates        d/d          748   +0.82   +0.54   +0.50   0.14     0%
+volume           d/d          703   +0.43   +0.25   +0.16   0.09     9%
+breadth-index    d/d          750   -0.64   -0.62   -0.55   0.19     5%
+export-krsemi    m/d           36   +0.14     n/a     n/a   n/a
+
+※ sd60 = 60일 롤링상관의 표준편차(클수록 불안정) / flip% = 부호가 중앙값과 반대인 기간 비율
+
+=== 3. 유효표본 문제 (퍼센타일 판정의 근거 강도) ===
+pair                w    롤링값수    독립표본≈         판정
+rate-index         20     731     36.5         충분
+rate-index         60     691     11.5         빈약
+rate-index        120     631      5.3       근거없음
+tga-index          20     731     36.5         충분
+tga-index          60     691     11.5         빈약
+tga-index         120     631      5.3       근거없음
+dollar-kospi       20     707     35.4         충분
+dollar-kospi       60     667     11.1         빈약
+dollar-kospi      120     607      5.1       근거없음
+metal-rate         20     732     36.6         충분
+metal-rate         60     692     11.5         빈약
+metal-rate        120     632      5.3       근거없음
+ewy-krsemi         20     707     35.4         충분
+ewy-krsemi         60     667     11.1         빈약
+ewy-krsemi        120     607      5.1       근거없음
+m2-index           20     131      6.5       근거없음
+m2-index           60      91      1.5       근거없음
+m2-index          120      31      0.3       근거없음
+reserves-index     20     136      6.8       근거없음
+reserves-index     60      96      1.6       근거없음
+reserves-index    120      36      0.3       근거없음
+gold-btc           20     734     36.7         충분
+gold-btc           60     694     11.6         빈약
+gold-btc          120     634      5.3       근거없음
+wti-rates          20     729     36.5         충분
+wti-rates          60     689     11.5         빈약
+wti-rates         120     629      5.2       근거없음
+volume             20     684     34.2         충분
+volume             60     644     10.7         빈약
+volume            120     584      4.9       근거없음
+breadth-index      20     731     36.5         충분
+breadth-index      60     691     11.5         빈약
+breadth-index     120     631      5.3       근거없음
+export-krsemi      20      17      0.8       근거없음
+export-krsemi      60       -        -       계산불가
+export-krsemi     120       -        -       계산불가
+
+=== 4. 시차(lead-lag) 검증: 정말 선행하는가 ===
+ewy-krsemi     (ewy->samsung) lag-2=+0.034  lag-1=-0.022  lag+0=+0.368  lag+1=+0.333  lag+2=-0.153  
+dollar-kospi   (dxy->ks11) lag-2=+0.043  lag-1=+0.039  lag+0=-0.030  lag+1=-0.172  lag+2=+0.008  
+rate-index     (tnx->gspc) lag-2=-0.023  lag-1=-0.064  lag+0=-0.041  lag+1=-0.003  lag+2=+0.059  
+※ lag+1 = 왼쪽 시리즈가 하루 선행(어제 EWY -> 오늘 삼성전자)

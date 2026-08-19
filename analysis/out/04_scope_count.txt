@@ -1,0 +1,65 @@
+=== 1. 기존 12개 카드를 rightOptions까지 전개한 실제 조합 수 ===
+  rate-index       left=tnx      우측 선택지 1개 -> 조합 1
+  tga-index        left=tga      우측 선택지 1개 -> 조합 1
+  dollar-kospi     left=dxy      우측 선택지 1개 -> 조합 1
+  metal-rate       left=copper   우측 선택지 1개 -> 조합 1
+  ewy-krsemi       left=ewy      우측 선택지 6개 -> 조합 6
+  m2-index         left=wm2ns    우측 선택지 2개 -> 조합 2
+  reserves-index   left=wresbal  우측 선택지 2개 -> 조합 2
+  gold-btc         left=gold     우측 선택지 1개 -> 조합 1
+  wti-rates        left=wti      우측 선택지 3개 -> 조합 3
+  volume           left=kvol     우측 선택지 4개 -> 조합 4
+  breadth-index    left=breadth  우측 선택지 3개 -> 조합 3
+  export-krsemi    left=exports  우측 선택지 6개 -> 조합 6
+
+  카드 12개 -> 실제 상관 조합 총 31개
+
+=== 2. 조합별 유효성 판정 ===
+card             조합                         n    c20  flip%       판정
+rate-index       tnx->gspc                750  -0.33     39      불안정
+tga-index        tga->gspc                744  +0.04     41      불안정
+dollar-kospi     dxy->ks11                705  +0.00     46      불안정
+metal-rate       copper->tnx              751  -0.17     43      불안정
+ewy-krsemi       ewy->samsung             702  +0.25      0       유효
+ewy-krsemi       ewy->hynix               702  +0.14      0       유효
+ewy-krsemi       ewy->hanmi               702  +0.14      1       유효
+ewy-krsemi       ewy->joosung             702  +0.08     10       유효
+ewy-krsemi       ewy->leeno               702  +0.15     23       유효
+ewy-krsemi       ewy->krsemi              702  +0.14      1       유효
+m2-index         wm2ns->gspc              136      -      -     표본부족
+m2-index         wm2ns->ixic              136      -      -     표본부족
+reserves-index   wresbal->gspc            152      -      -     표본부족
+reserves-index   wresbal->ixic            152      -      -     표본부족
+gold-btc         gold->btc                753  +0.49     26       유효
+wti-rates        wti->dgs2                746  +0.58      8       유효
+wti-rates        wti->dgs3                746  +0.59      3       유효
+wti-rates        wti->dgs10               746  +0.82      0       유효
+volume           kvol->uvol               680  +0.43     11       유효
+volume           kvol->ks11               704  +0.14     39      불안정
+volume           kvol->gspc               682  -0.18     47      불안정
+volume           kvol->ixic               682  -0.18     41      불안정
+breadth-index    breadth->gspc            750  -0.64      5       유효
+breadth-index    breadth->ixic            750  -0.73      0       유효
+breadth-index    breadth->dji             750  -0.39     50      불안정
+export-krsemi    exports->samsung          21      -      -     표본부족
+export-krsemi    exports->hynix            21      -      -     표본부족
+export-krsemi    exports->hanmi            21      -      -     표본부족
+export-krsemi    exports->joosung          21      -      -     표본부족
+export-krsemi    exports->leeno            21      -      -     표본부족
+export-krsemi    exports->krsemi           21      -      -     표본부족
+
+  집계: 불안정 8개, 유효 13개, 표본부족 10개
+
+=== 3. lead-lag(전일 미국 -> 당일 한국) 후보 매트릭스 ===
+  미국 10종 x 한국 7종 = 70개 검증 대상
+  이 중 |r|>=0.30 (실전 의미 있는 수준) = 33개
+  이 중 |r|>=0.40 = 13개
+
+=== 4. 최종 스코프 집계 ===
+  A. 기존 카드 유효 조합        : 13개
+  B. lead-lag 유효(|r|>=0.40)   : 13개
+  C. 섹터 모멘텀(상관 아님)     : 11개
+  D. 밸류체인(상관 아님)        : 5개
+
+  => 상관계수를 실제 계산해야 하는 것: A 13 + B 13 = 26개
+  => 창 3개(20/60/120) 적용 시 시계열: 78개
