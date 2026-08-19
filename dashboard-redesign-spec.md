@@ -3,6 +3,7 @@
 대상 사이트: https://brevislab.com/dashboard.html
 작성일 기준 실사: 2026-08-19 (로컬 PC에서 Chrome 익스텐션으로 실사이트 네트워크 요청·JSON·JS 직접 검토)
 작성 목적: 실제 코딩은 별도로 진행하며, 이 문서는 정확한 설계 사양 전달용.
+관련 문서: 콘텐츠 탭(tech/economy/finance/market) 실사는 [content-tabs-audit.md](content-tabs-audit.md) 참고 — 이 문서는 dashboard.html 상관계수 차트 엔진만 다룸.
 
 ---
 
